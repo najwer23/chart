@@ -6,6 +6,12 @@
     list-style-type: none;
 }  
 
+.chart-container {
+    position: relative; 
+    height:20vh;
+    width:40vw
+}
+
 body {
     font-family: 'Muli', sans-serif;
     font-weight: normal;

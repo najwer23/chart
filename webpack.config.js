@@ -4,7 +4,8 @@ module.exports = {
   entry: {
     app: [
       '@babel/polyfill',
-      './assets/js/index.js'
+      './assets/js/index.js',
+      './assets/js/chart.js'
     ],
     styleMain: [
       './assets/js/style.js'
