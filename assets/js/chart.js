@@ -65,9 +65,10 @@ class DataCenter {
         let minusInfinity = -999999;     
         let plusInfinity = 999999;
         let Y;
+        let yFun = this.getyFunction();
 
         for (let i=this.leftBound; i<=this.rightBound; i+=this.step) {
-            Y = eval(this.getyFunction().replace(/x/gi, `(${i})`))
+            Y = eval(yFun.replace(/x/gi, `(${i})`))
             if (Y>minusInfinity && Y<plusInfinity) {
                 this.sampledFunction.push(
                     {
@@ -84,9 +85,9 @@ class DataCenter {
     }
 
     getyFunction() {
-        if (this.yFunction.match(/[a-wA-Wy-zY-Z]/gi) != null) {
-            this.yFunction = "x"
-        }
+        let t = this.yFunction;
+        t = t.replace(/(Math.sin)|(\()|(\))|(x)|Math.cos/gi,"")
+        if(t.length > 0) this.yFunction = "x";
         return this.yFunction;
     }
 
