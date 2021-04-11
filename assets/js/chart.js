@@ -7,6 +7,7 @@ class CustomChart {
         this.title = params.title
         this.rangeX = this.makeAxisRange(params.axisX.step, params.axisX.name, params.axisX.precision)
         this.rangeY = this.makeAxisRange(params.axisY.step, params.axisY.name, params.axisY.precision)
+        this.chart = null;
     }
 
     makeAxisRange(step, axis, precision) {
@@ -20,7 +21,7 @@ class CustomChart {
 
     drawChart() {
         var ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
+        this.chart = new Chart(ctx, {
             type: 'scatter',
             data: {
                 labels: this.rangeX, //range on axies x, precision must be bigger or same as data
@@ -45,16 +46,19 @@ class CustomChart {
              }
         });
     }
+
+    deconstructor() {
+        this.chart.destroy();
+      }
 };
 
 class DataCenter {
     constructor (params) {
-        this.yFunction = params.yFunction;
-        this.leftBound = params.leftBound
-        this.rightBound = params.rightBound
-        this.step = params.step
+        this.yFunction = this.getValueByName(params.yFunction);
+        this.leftBound = +this.getValueByName(params.leftBound)
+        this.rightBound = +this.getValueByName(params.rightBound)
+        this.step = +this.getValueByName(params.step)
         this.sampledFunction = []
-
     }
 
     generateData() {  
@@ -63,7 +67,7 @@ class DataCenter {
         let Y;
 
         for (let i=this.leftBound; i<=this.rightBound; i+=this.step) {
-            Y = eval(this.yFunction.replace(/x/gi, `(${i})`))
+            Y = eval(this.getyFunction().replace(/x/gi, `(${i})`))
             if (Y>minusInfinity && Y<plusInfinity) {
                 this.sampledFunction.push(
                     {
@@ -75,6 +79,17 @@ class DataCenter {
         }
     }
 
+    getStep() {
+        return this.step
+    }
+
+    getyFunction() {
+        if (this.yFunction.match(/[a-wA-Wy-zY-Z]/gi) != null) {
+            this.yFunction = "x"
+        }
+        return this.yFunction;
+    }
+
     getSampledFunction() {
         return this.sampledFunction
     }
@@ -83,40 +98,38 @@ class DataCenter {
         let precision = this.step.toString();
         return (this.step % 1 == 0) ? 0 : (precision.length - 2)
     }
+
+    getValueByName(n) {
+        return document.querySelector('input[name='+n+']').value
+    }
 }
 
-function getValueByName(n) {
-    return document.querySelector('input[name='+n+']').value
+var chartList = [];
+
+function makeChart() {
+    let dataCenter = new DataCenter({
+        yFunction: "yFunction",
+        leftBound: "leftBound",
+        rightBound: "rightBound",
+        step: "step"
+    });
+    dataCenter.generateData();
+
+    let mainChart = new CustomChart({
+        title: "Wykres y=" + dataCenter.getyFunction(),
+        axisX: {step: dataCenter.getStep(), name: "x", precision: dataCenter.getPrecision()},
+        axisY: {step: 1, name: "y", precision: 0},
+        dataSample: dataCenter.getSampledFunction()
+    })
+    mainChart.drawChart()  
+    chartList.push(mainChart)
 }
 
 window.onload = () => {
-    let yFunction = getValueByName("yFunction");
-    let leftBound = +getValueByName("leftBound");
-    let rightBound = +getValueByName("rightBound");
-    let step = +getValueByName("step")
+    makeChart()
 
-    if (yFunction.match(/[a-wA-Wy-zY-Z]/gi) != null) {
-        yFunction = "x"
-        document.querySelector('input[name=yFunction]').value = "Error"
-    }
-
-    let dataCenter = new DataCenter({
-        yFunction: yFunction,
-        leftBound: leftBound,
-        rightBound: rightBound,
-        step: step
+    document.querySelector('#chart-controls').addEventListener('change', (e) => {
+        chartList.map(v=>v.deconstructor())
+        makeChart()
     });
-
-    dataCenter.generateData();
-    let sampledFunction = dataCenter.getSampledFunction();
-    let precision = dataCenter.getPrecision()
-
-    let mainChart = new CustomChart({
-        title: "Wykres y=" + yFunction,
-        axisX: {step: step, name: "x", precision: precision},
-        axisY: {step: 1, name: "y", precision: 0},
-        dataSample: sampledFunction
-    })
-    mainChart.drawChart()
 }
-
