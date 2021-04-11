@@ -19,19 +19,17 @@ class CustomChart {
     }
 
     drawChart() {
-        console.log(this.dataSample)
-        console.log(this.rangeX)
         var ctx = document.getElementById('chart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
+            type: 'scatter',
             data: {
                 labels: this.rangeX, //range on axies x, precision must be bigger or same as data
                 datasets: [{
                     label: this.title,
                     data: this.dataSample, //sample data value
                     borderWidth: 1,
-                    borderColor: "red",
-                    backgroundColor: "red"
+                    borderColor: "#2D58FA",
+                    backgroundColor: "#2D58FA"
                 }]
             },
             options: {
@@ -49,12 +47,68 @@ class CustomChart {
     }
 };
 
+class DataCenter {
+    constructor (params) {
+        this.yFunction = params.yFunction;
+        this.leftBound = params.leftBound
+        this.rightBound = params.rightBound
+        this.step = params.step
+        this.sampledFunction = []
+
+    }
+
+    generateData() {  
+        let minusInfinity = -999999;     
+        let plusInfinity = 999999;
+        let Y;
+
+        for (let i=this.leftBound; i<=this.rightBound; i+=this.step) {
+            Y = eval(this.yFunction.replace(/x/gi, `(${i})`))
+            if (Y>minusInfinity && Y<plusInfinity) {
+                this.sampledFunction.push(
+                    {
+                        x: i,
+                        y: Y
+                    }
+                )
+            }
+        }
+    }
+
+    getSampledFunction() {
+        return this.sampledFunction
+    }
+
+    getPrecision() {
+        let precision = this.step.toString();
+        return (this.step % 1 == 0) ? 0 : (precision.length - 2)
+    }
+}
+
 window.onload = () => {
+    let yFunction = "x**3";
+    let leftBound = -1;
+    let rightBound = 1;
+    let step = 0.01
+
+
+
+    let dataCenter = new DataCenter({
+        yFunction: yFunction,
+        leftBound: leftBound,
+        rightBound: rightBound,
+        step: step
+    });
+
+    dataCenter.generateData();
+    let sampledFunction = dataCenter.getSampledFunction();
+    let precision = dataCenter.getPrecision()
+
     let mainChart = new CustomChart({
-        title: "Wykres testowy",
-        axisX: {step: 1, name: "x", precision: 0},
-        axisY: {step: 2, name: "y", precision: 0},
-        dataSample: [{x: 2, y: 20}, {x: 7, y: 30}, {x: 90, y: 40}]
+        title: "Wykres y=" + yFunction,
+        axisX: {step: step, name: "x", precision: precision},
+        axisY: {step: 1, name: "y", precision: 0},
+        dataSample: sampledFunction
     })
     mainChart.drawChart()
 }

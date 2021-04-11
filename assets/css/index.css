@@ -4,12 +4,18 @@
     box-sizing: border-box;
     text-decoration: none;
     list-style-type: none;
-}  
+}
+
+main {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
 
 .chart-container {
     position: relative; 
-    height:20vh;
-    width:40vw
+    height:30vh;
+    width:60vw
 }
 
 body {
