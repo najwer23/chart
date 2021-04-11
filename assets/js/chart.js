@@ -85,13 +85,20 @@ class DataCenter {
     }
 }
 
+function getValueByName(n) {
+    return document.querySelector('input[name='+n+']').value
+}
+
 window.onload = () => {
-    let yFunction = "x**3";
-    let leftBound = -1;
-    let rightBound = 1;
-    let step = 0.01
+    let yFunction = getValueByName("yFunction");
+    let leftBound = +getValueByName("leftBound");
+    let rightBound = +getValueByName("rightBound");
+    let step = +getValueByName("step")
 
-
+    if (yFunction.match(/[a-wA-Wy-zY-Z]/gi) != null) {
+        yFunction = "x"
+        document.querySelector('input[name=yFunction]').value = "Error"
+    }
 
     let dataCenter = new DataCenter({
         yFunction: yFunction,

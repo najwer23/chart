@@ -14,8 +14,8 @@ main {
 
 .chart-container {
     position: relative; 
-    height:30vh;
-    width:60vw
+    height:30%;
+    width:60%
 }
 
 body {
