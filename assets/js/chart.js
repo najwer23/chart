@@ -54,10 +54,23 @@ class CustomChart {
 
 class DataCenter {
     constructor (params) {
-        this.yFunction = this.getValueByName(params.yFunction);
-        this.leftBound = +this.getValueByName(params.leftBound)
-        this.rightBound = +this.getValueByName(params.rightBound)
-        this.step = +this.getValueByName(params.step)
+        this.yFunction = this.getValueByName(params.yFunction).replace(/\s+/gi,"");
+        let arrNumbers = [
+            params.leftBound,
+            params.step,
+            params.rightBound
+        ].map((v,i) => {
+            if(this.getValueByName(v).match(/[A-Za-z]/)){
+                this.setValueByName(v, i)
+                v = i;
+            } else {
+                v = +this.getValueByName(v)
+            }
+            return v
+        })
+        this.leftBound=arrNumbers[0]
+        this.step=arrNumbers[1]
+        this.rightBound=arrNumbers[2]
         this.sampledFunction = []
     }
 
@@ -87,7 +100,8 @@ class DataCenter {
     getyFunction() {
         this.yFunction = this.yFunction.replace(/(-x\**)/gi,"(-1)*x**")
         let t = this.yFunction;
-        t = t.replace(/(Math.sin)|(\()|(\))|(x)|Math.cos|[0-9]|[\+\-\*\/\**]/gi,"")
+        t = t.replace(/(Math.sin)|(Math.cos)|(Math.E)|(Math.log)/gi,"")
+        t = t.replace(/(\()|(\))|(x)|[0-9]|[\+\-\*\/\**]/gi,"")
         if(t.length > 0) {
             this.yFunction = "x";
             console.log("Niedozwolona funkcja")

@@ -10,6 +10,10 @@ main {
     margin: 5%;
 }
 
+h1 {
+    margin-bottom: 20px;
+}
+
 .chart-container {
     position: relative; 
     height:30%;
@@ -34,12 +38,32 @@ main {
     margin-bottom: 40px;
 }
 
+table, th, td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+table{
+    margin-bottom: 40px;
+}
+
 body {
     font-family: 'Muli', sans-serif;
     font-weight: normal;
     font-size: 1.2rem;
 }
 
-@media only screen and (max-width: 1400px) {
+.examples{
+    margin-bottom: 40px;
+}
 
+@media only screen and (max-width: 1000px) {
+    .chart-container {
+        width:100%
+    }
+
+    #chart-controls input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

@@ -14,6 +14,7 @@
 </head>
 <body>
     <main>
+        <h1>Numerical integration</h1>
         <div>
             <div class="chart-container">
                 <canvas id="chart"></canvas>
@@ -23,11 +24,11 @@
         <section id="chart-controls">
             <div>
                 <label>Left bound:</label>
-                <input type="text" name="leftBound" value="0">
+                <input type="text" name="leftBound" value="-5">
             </div>
             <div>
                 <label>Right bound:</label>
-                <input type="text" name="rightBound" value="3.14">
+                <input type="text" name="rightBound" value="5">
             </div>
             <div>
                 <label>Step:</label>
@@ -53,6 +54,59 @@
                 <span id="trapezoidalRule"></span>
             </div>
         </section>
+
+        <table>
+            <tr>
+              <th>Math Function</th>
+              <th>JavaScript Function</th>
+            </tr>
+            <tr>
+              <td>sin(x)</td>
+              <td>Math.sin(x)</td>
+            </tr>
+            <tr>
+              <td>cos(x)</td>
+              <td>Math.cos(x)</td>
+            </tr>
+            <tr>
+              <td>Numbers</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>division</td>
+              <td>/</td>
+            </tr>
+            <tr>
+              <td>multiplication</td>
+              <td>*</td>
+            </tr>
+            <tr>
+              <td>addition</td>
+              <td>+</td>
+            </tr>
+            <tr>
+              <td>subtraction</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>exponentiation</td>
+              <td>**</td>
+            </tr>
+            <tr>
+              <td>exp(x)</td>
+              <td>Math.E**x</td>
+            </tr>
+            <tr>
+              <td>log(x)</td>
+              <td>Math.log(x)</td>
+            </tr>
+          </table>
+
+          <section class="examples">
+              <p>Math.sin(x)+2*x-1</p>
+              <p>-x**2-5</p>
+              <p>Math.sin(2*x)</p>
+          </section>
         
         <a href="https://github.com/najwer23/chart">https://github.com/najwer23/chart</a>
     </main>
