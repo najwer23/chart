@@ -37,7 +37,7 @@ class CustomChart {
                 scales: {
                     y: {
                         suggestedMin: 0, //this.rangeY[0],
-                        suggestedMax: Math.max(...this.rangeY) + 1.1
+                        suggestedMax: Math.max(...this.rangeY)
                     },
                     x: {
 
@@ -57,7 +57,6 @@ class DataCenter {
         this.yFunction = this.getValueByName(params.yFunction).replace(/\s+/gi,"");
         let arrNumbers = [
             params.leftBound,
-            params.step,
             params.rightBound
         ].map((v,i) => {
             if(this.getValueByName(v).match(/[A-Za-z]/)){
@@ -68,9 +67,11 @@ class DataCenter {
             }
             return v
         })
+
+        console.log(params.step)
         this.leftBound=arrNumbers[0]
-        this.step=arrNumbers[1]
-        this.rightBound=arrNumbers[2]
+        this.step=+document.querySelector('select[name='+params.step+']').value
+        this.rightBound=arrNumbers[1]
         this.sampledFunction = []
     }
 

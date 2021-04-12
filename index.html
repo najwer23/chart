@@ -24,15 +24,19 @@
         <section id="chart-controls">
             <div>
                 <label>Left bound:</label>
-                <input type="text" name="leftBound" value="-5">
+                <input type="range" size="2" name="leftBound" min="-100" max="100" value="-5">
             </div>
             <div>
                 <label>Right bound:</label>
-                <input type="text" name="rightBound" value="5">
+                <input type="range" size="2" name="rightBound" min="-100" max="100" value="5">
             </div>
             <div>
                 <label>Step:</label>
-                <input type="text" name="step" value="0.1">
+                <select name="step" id="step">
+                    <option value="0.01">0.01</option>
+                    <option selected value="0.1">0.1</option>
+                    <option value="1">1</option>
+                  </select>
             </div>
             <div>
                 <label>Function:</label>
