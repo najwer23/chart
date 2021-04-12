@@ -4,7 +4,6 @@
   "main": "index.js",
   "repository": "https://github.com/najwer23/html-start-template.git",
   "author": "Travis CI <najwer23@gmail.com>",
-  "homepage": "https://najwer23.github.io/chart",
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
