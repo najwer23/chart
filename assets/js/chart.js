@@ -37,7 +37,7 @@ class CustomChart {
                 scales: {
                     y: {
                         suggestedMin: 0, //this.rangeY[0],
-                        suggestedMax: Math.max(...this.rangeY)
+                        suggestedMax: Math.max(...this.rangeY) + 1.1
                     },
                     x: {
 
@@ -117,19 +117,28 @@ class DataCenter {
         let sum = 0, x = 0;
         let lb = this.leftBound;
         let rb = this.rightBound;
-        let N = 100000
+        let N = 10000
 
         for (let i=0; i<N; i++) {
             x = this.generateRandomNumber(lb, rb)
             sum += eval(this.getyFunction().replace(/x/gi, `(${x})`))
         }
-       
-        document.querySelector("#monteCarlo").innerHTML = (((rb-lb)/N)*sum).toFixed(2)
+  
+        document.querySelector("#monteCarlo").innerHTML = Math.abs((((rb-lb)/N)*sum)).toFixed(2)
     }
 
     generateRandomNumber(min, max) {
-       return +(Math.random() * (max - min) + min).toFixed(4);
+        return +(Math.random() * (max - min) + min).toFixed(4);
     };
+
+    rectangleRule() {
+        let sum = 0;
+        let b=0;
+        for (let i=0; i<this.sampledFunction.length; i++) {
+            sum+=this.sampledFunction[i].y*this.step
+        }
+        document.querySelector("#rectangleRule").innerHTML = Math.abs(sum).toFixed(2)
+    }
 }
 
 var chartList = [];
@@ -143,11 +152,12 @@ function makeChart() {
     });
     dataCenter.generateData();
     dataCenter.monteCarlo();
+    dataCenter.rectangleRule();
 
     let mainChart = new CustomChart({
         title: "Wykres y=" + dataCenter.getyFunction(),
         axisX: {step: dataCenter.getStep(), name: "x", precision: dataCenter.getPrecision()},
-        axisY: {step: 1, name: "y", precision: 0},
+        axisY: {step: 1, name: "y", precision: 1},
         dataSample: dataCenter.getSampledFunction()
     })
     mainChart.drawChart()  

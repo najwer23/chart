@@ -23,11 +23,11 @@
         <section id="chart-controls">
             <div>
                 <label>Left bound:</label>
-                <input type="text" name="leftBound" value="-5">
+                <input type="text" name="leftBound" value="0">
             </div>
             <div>
                 <label>Right bound:</label>
-                <input type="text" name="rightBound" value="5">
+                <input type="text" name="rightBound" value="3.14">
             </div>
             <div>
                 <label>Step:</label>
@@ -35,14 +35,21 @@
             </div>
             <div>
                 <label>Function:</label>
-                <input type="text" name="yFunction" value="x">
+                <input type="text" name="yFunction" value="Math.sin(x)">
             </div>
         </section>
 
-        <section id="chart-integration">
-            <label>Monte Carlo Integration: </label>
-            <span id="monteCarlo"></span>
+        <section class="chart-integration">
+            <div class="integration">
+                <label>Monte Carlo Integration: </label>
+                <span id="monteCarlo"></span>
+            </div>
+            <div class="integration">
+                <label>Rectangle rule Integration: </label>
+                <span id="rectangleRule"></span>
+            </div>
         </section>
+        
     </main>
 </body>
 </html>
