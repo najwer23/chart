@@ -18,6 +18,23 @@ main {
     width:60%
 }
 
+#chart-controls input {
+    width: 30%;
+}
+
+#chart-controls {
+    margin-top: 40px;
+}
+
+#chart-controls label {
+    display: inline-block;
+    width: 150px;
+}
+
+#chart-integration {
+    margin-top: 40px;
+}
+
 body {
     font-family: 'Muli', sans-serif;
     font-weight: normal;

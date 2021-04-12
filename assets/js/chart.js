@@ -36,7 +36,7 @@ class CustomChart {
             options: {
                 scales: {
                     y: {
-                        suggestedMin: this.rangeY[0],
+                        suggestedMin: 0, //this.rangeY[0],
                         suggestedMax: Math.max(...this.rangeY)
                     },
                     x: {
@@ -85,10 +85,19 @@ class DataCenter {
     }
 
     getyFunction() {
+        this.yFunction = this.yFunction.replace(/(-x\**)/gi,"(-1)*x**")
         let t = this.yFunction;
-        t = t.replace(/(Math.sin)|(\()|(\))|(x)|Math.cos/gi,"")
-        if(t.length > 0) this.yFunction = "x";
+        t = t.replace(/(Math.sin)|(\()|(\))|(x)|Math.cos|[0-9]|[\+\-\*\/\**]/gi,"")
+        if(t.length > 0) {
+            this.yFunction = "x";
+            console.log("Niedozwolona funkcja")
+            this.setValueByName('yFunction',this.yFunction)
+        }
         return this.yFunction;
+    }
+
+    setValueByName(n,v) {
+        document.querySelector('input[name='+n+']').value =v
     }
 
     getSampledFunction() {
@@ -103,6 +112,24 @@ class DataCenter {
     getValueByName(n) {
         return document.querySelector('input[name='+n+']').value
     }
+
+    monteCarlo() {
+        let sum = 0, x = 0;
+        let lb = this.leftBound;
+        let rb = this.rightBound;
+        let N = 100000
+
+        for (let i=0; i<N; i++) {
+            x = this.generateRandomNumber(lb, rb)
+            sum += eval(this.getyFunction().replace(/x/gi, `(${x})`))
+        }
+       
+        document.querySelector("#monteCarlo").innerHTML = (((rb-lb)/N)*sum).toFixed(2)
+    }
+
+    generateRandomNumber(min, max) {
+       return +(Math.random() * (max - min) + min).toFixed(4);
+    };
 }
 
 var chartList = [];
@@ -115,6 +142,7 @@ function makeChart() {
         step: "step"
     });
     dataCenter.generateData();
+    dataCenter.monteCarlo();
 
     let mainChart = new CustomChart({
         title: "Wykres y=" + dataCenter.getyFunction(),
