@@ -133,11 +133,18 @@ class DataCenter {
 
     rectangleRule() {
         let sum = 0;
-        let b=0;
         for (let i=0; i<this.sampledFunction.length; i++) {
             sum+=this.sampledFunction[i].y*this.step
         }
         document.querySelector("#rectangleRule").innerHTML = Math.abs(sum).toFixed(2)
+    }
+
+    trapezoidalRule() {
+        let sum = 0;
+        for (let i=1; i<this.sampledFunction.length; i++) {
+            sum+=(this.sampledFunction[i-1].y + this.sampledFunction[i].y)*this.step*0.5
+        }
+        document.querySelector("#trapezoidalRule").innerHTML = Math.abs(sum).toFixed(2)
     }
 }
 
@@ -153,6 +160,7 @@ function makeChart() {
     dataCenter.generateData();
     dataCenter.monteCarlo();
     dataCenter.rectangleRule();
+    dataCenter.trapezoidalRule();
 
     let mainChart = new CustomChart({
         title: "Wykres y=" + dataCenter.getyFunction(),
