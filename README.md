@@ -10,9 +10,7 @@ Install the dependencies
 $ yarn install
 ```
 
-### Serve
-To serve in the browser  - Runs webpack-dev-server
-
+### Test build
 ```sh
 $ yarn start
 ```
